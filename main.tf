@@ -96,7 +96,7 @@ connection {
   type     = "ssh"
   user     = "ubuntu"
   password = ""
-  private_key = "${file("~/.ssh/id_rsa")}"
+  private_key = "${var.private_key}"
   host = "${aws_instance.Dev_Postgresql.public_ip}"
 }
 }
@@ -199,7 +199,7 @@ EOD
    type     = "ssh"
    user     = "ubuntu"
    password = ""
-   private_key = "${file("~/.ssh/id_rsa")}"
+   private_key = "${var.private_key}"
    host = "${aws_instance.Prod_Postgresql.public_ip}"
  }
 }
