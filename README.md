@@ -12,4 +12,4 @@ provider.aws v2.19.0
 aws-cli/1.16.190
 ansible 2.8.2
 
-In the variables.tf set the path to your private and public key path, or create a key with the openssl. Also the the region is set to us-eat-1 if re deploying to another region change the ami to use Ubuntu, 16.04 LTS.
+In the variables.tf set the path to your private and public key path, or create a key with openssl. Also the the region is set to us-eat-1 if deploying to another region change the ami id in the main.tf to use Ubuntu, 16.04 LTS.
