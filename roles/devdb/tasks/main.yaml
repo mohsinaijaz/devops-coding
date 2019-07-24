@@ -1,0 +1,66 @@
+---
+- name: install prerequisites
+  sudo: true
+  apt: name={{ item }} state=latest
+  with_items:
+    - libpq-dev
+    - python-psycopg2
+  tags:
+    - pre packages
+
+- name: Install PostgreSQL
+  sudo: true
+  apt: name={{ item }} state=installed
+  with_items:
+    - postgresql
+  tags:
+    - post packages
+
+- name: start postgresql server
+  sudo: true
+  service:
+    enabled: yes
+    name: postgresql
+    state: restarted
+
+- name: Ensure the PostgreSQL service is running
+  service: name=postgresql state=started enabled=yes
+
+- name: create admin user
+  postgresql_user:
+    user: "admin"
+    password: "root"
+    role_attr_flags: "CREATEDB,SUPERUSER"
+  become: true
+  become_user: postgres
+
+- name: create user service1
+  postgresql_user:
+    user: "service1"
+    password: "root"
+    role_attr_flags: "NOCREATEDB,NOSUPERUSER"
+  become: true
+  become_user: postgres
+
+- name: create user user1
+  postgresql_user:
+    user: "user1"
+    password: "root"
+    role_attr_flags: "NOCREATEDB,NOSUPERUSER"
+  become: true
+  become_user: postgres
+
+- name: create user user2
+  postgresql_user:
+    user: "user2"
+    password: "root"
+    role_attr_flags: "NOCREATEDB,NOSUPERUSER"
+  become: true
+  become_user: postgres
+
+- name: create postgresql db
+  postgresql_db:
+    name: "dev"
+    state: present
+  become: true
+  become_user: postgres
