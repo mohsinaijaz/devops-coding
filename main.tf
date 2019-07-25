@@ -1,6 +1,10 @@
 provider "aws" {
   region     = "${var.aws_region}"
-  }
+}
+resource "aws_key_pair" "ec2_key" {
+  key_name = "ec2_key"
+  public_key = "${file("${var.public_key}")}"
+}
 resource "aws_vpc" "Dev" {
   cidr_block       = "190.160.0.0/16"
   instance_tenancy = "default"
@@ -96,7 +100,7 @@ connection {
   type     = "ssh"
   user     = "ubuntu"
   password = ""
-  private_key = "${var.private_key}"
+  private_key = "${file("~/.ssh/id_rsa")}"
   host = "${aws_instance.Dev_Postgresql.public_ip}"
 }
 }
@@ -162,10 +166,6 @@ resource "aws_security_group" "prod_sg_22" {
     Name = "Prod_SG"
   }
 }
-resource "aws_key_pair" "ec2_key" {
-  key_name   = "ec2_key"
-  public_key = "${var.public_key}"
-}
 resource "aws_instance" "Prod_Postgresql" {
   ami           = "ami-0cfee17793b08a293"
   instance_type = "t2.micro"
@@ -199,7 +199,7 @@ EOD
    type     = "ssh"
    user     = "ubuntu"
    password = ""
-   private_key = "${var.private_key}"
+   private_key = "${file("~/.ssh/id_rsa")}"
    host = "${aws_instance.Prod_Postgresql.public_ip}"
  }
 }
