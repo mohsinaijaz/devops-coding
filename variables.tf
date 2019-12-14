@@ -9,3 +9,7 @@ variable "public_key" {
     type = "string"
     default = "<path...to public.pub>"
 }
+variable "nothing" {
+    type = "string"
+    default = ""
+}
